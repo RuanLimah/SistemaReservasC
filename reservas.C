@@ -12,7 +12,7 @@ typedef struct {
     int quantidadePessoas;
 } Reserva;
 
-Reserva reservas[ RESERVAS]; // Array para armazenar as reservas
+Reserva reservas[RESERVAS]; // Array para armazenar as reservas
 int totalReservas = 0; // Contador de reservas feitas
 
 // Declaração das funções
@@ -20,7 +20,6 @@ void fazerReserva();
 void listarReservas();
 void totalPessoasPorDia();
 void menu();
-const char* diaSemana(int dia);
 
 int main() {
     setlocale(LC_ALL, "Portuguese"); // Ajusta a localidade para Português
@@ -34,18 +33,26 @@ void fazerReserva() {
         Reserva novaReserva;
         printf("Nome do responsável: ");
         scanf(" %[^\n]", novaReserva.nome); // Lê o nome do responsável
+        fflush(stdin);
         printf("CPF: ");
         scanf(" %s", novaReserva.cpf); // Lê o CPF
+        fflush(stdin);
         printf("Dia da reserva (1-Quinta, 2-Sexta, 3-Sábado, 4-Domingo): ");
         scanf("%d", &novaReserva.dia); // Lê o dia da reserva
+        fflush(stdin);
         printf("Quantidade de pessoas: ");
         scanf("%d", &novaReserva.quantidadePessoas); // Lê a quantidade de pessoas
+        fflush(stdin);
 
         reservas[totalReservas] = novaReserva; // Adiciona a reserva no array
         totalReservas++; // Incrementa o contador de reservas
         printf("Reserva feita com sucesso!\n");
+        system("pause");
+        system("cls");
     } else {
         printf("Limite de reservas atingido!\n");
+        system("pause");
+        system("cls");
     }
 }
 
@@ -53,17 +60,20 @@ void fazerReserva() {
 void listarReservas() {
     if (totalReservas == 0) {
         printf("Nenhuma reserva cadastrada.\n");
+        system("pause");
+        system("cls");
         return;
     }
     int i;
     for (i = 0; i < totalReservas; i++) {
-        printf("Reserva %d\n", i + 1);
         printf("Nome: %s\n", reservas[i].nome);
         printf("CPF: %s\n", reservas[i].cpf);
-        printf("Dia: %s\n", diaSemana(reservas[i].dia)); // Mostra o dia da semana
-        printf("Quantidade de pessoas: %d\n", reservas[i].quantidadePessoas);
-        printf("-------------------------------\n");
+        printf("Dia: %d\n", reservas[i].dia);
+        printf("Número de Pessoas: %d\n", reservas[i].quantidadePessoas);
+        printf("===============================\n");
     }
+    system("pause");
+    system("cls");
 }
 
 // Função para mostrar o total de pessoas por dia
@@ -72,6 +82,7 @@ void totalPessoasPorDia() {
     int totalPessoas = 0;
     printf("Informe o dia (1-Quinta, 2-Sexta, 3-Sábado, 4-Domingo): ");
     scanf("%d", &dia); // Lê o dia para a consulta
+    fflush(stdin);
 
     int i;
     for (i = 0; i < totalReservas; i++) {
@@ -79,7 +90,9 @@ void totalPessoasPorDia() {
             totalPessoas += reservas[i].quantidadePessoas; // Soma as pessoas reservadas no dia
         }
     }
-    printf("Total de pessoas reservadas para o dia %s: %d\n", diaSemana(dia), totalPessoas);
+    printf("Total de pessoas reservadas para o dia %d: %d\n", dia, totalPessoas);
+    system("pause");
+    system("cls");
 }
 
 // Função para exibir o menu e escolher opções
@@ -93,6 +106,7 @@ void menu() {
         printf("4. Sair\n");
         printf("Escolha uma opção: ");
         scanf("%d", &opcao); // Lê a opção escolhida pelo usuário
+        fflush(stdin);
         switch (opcao) {
             case 1:
                 fazerReserva();
@@ -110,15 +124,4 @@ void menu() {
                 printf("Opção inválida!\n");
         }
     } while (opcao != 4);
-}
-
-// Função para converter o número do dia para o nome do dia da semana
-const char* diaSemana(int dia) {
-    switch (dia) {
-        case 1: return "Quinta-feira";
-        case 2: return "Sexta-feira";
-        case 3: return "Sábado";
-        case 4: return "Domingo";
-        default: return "Dia inválido";
-    }
 }
